@@ -1,0 +1,31 @@
+---
+# vars file for badgekit
+BADGEKIT_API_REPO: "git://github.com/mozilla/badgekit-api.git"
+BADGEKIT_ADMIN_REPO: "git://github.com/mozilla/openbadges-badgekit.git"
+NVM_REPO: "git://github.com/creationix/nvm.git"
+NVM_DEST: "/home/nvm/"
+BADGEKIT_API_ENV: {
+    DB_HOST: "localhost",
+    DB_NAME: "badgekitapi",
+    DB_PASSWORD: "my_password",
+    DB_USER: "root",
+    MASTER_SECRET: "my_secret",
+    PORT: "api_port",
+    NODE_ENV: "test"
+}
+BADGEKIT_ADMIN_ENV: {
+    COOKIE_SECRET: "my_secret",
+    PORT: "admin_port",
+    OPENBADGER_SYSTEM: "badgekit",
+    OPENBADGER_URL: "my_ip:api_port",
+    OPENBADGER_SECRET: "my_secret",
+    DATABASE_DRIVER: "mysql",
+    DATABASE_HOST: "localhost",
+    DATABASE_USER: "root",
+    DATABASE_PASSWORD: "mypassword",
+    DATABASE_DATABASE: "badgekit",
+    PERSONA_AUDIENCE: "my_ip:admin_port",
+    API_SECRET: "my_api_secret",
+    BRANDING: "my_branding",
+    ACCESS_LIST: '[\"\^you@yourdomain.com\$\"]'
+}

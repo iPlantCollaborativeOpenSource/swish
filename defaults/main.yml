@@ -1,0 +1,11 @@
+---
+- hosts: badge_hosts
+  vars_files:
+    - ../vars/ubuntu.yml
+  tasks:
+    - include: ../tasks/git.yml
+    - include: ../tasks/heroku.yml
+    - include: ../tasks/node.yml
+    - include: ../tasks/mysql.yml
+    - include: ../tasks/badge_repos.yml
+    - include: ../tasks/db_migrations.yml

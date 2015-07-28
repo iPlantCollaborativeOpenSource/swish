@@ -1,0 +1,32 @@
+---
+    - name: npm install badgekit api dependencies
+      shell: cd /home/badges/badgekit-api; nvm use v0.10.33; npm install;
+    - name: make badgekit api db migrations
+      shell: bash -i -c 'cd /home/badges/badgekit-api; bin/db-migrate up;'
+      environment:
+         DB_HOST: "{{ BADGEKIT_API_ENV.DB_HOST }}"
+         DB_NAME: "{{ BADGEKIT_API_ENV.DB_NAME }}"
+         DB_PASSWORD: "{{ BADGEKIT_API_ENV.DB_PASSWORD }}"
+         DB_USER: "{{ BADGEKIT_API_ENV.DB_USER }}"
+         MASTER_SECRET: "{{ BADGEKIT_API_ENV.MASTER_SECRET }}"
+         PORT: "{{ BADGEKIT_API_ENV.PORT }}"
+         NODE_ENV: "{{ BADGEKIT_API_ENV.NODE_ENV }}"
+    - name: npm install badgekit admin dependencies
+      shell: bash -i -c 'cd /home/badges/openbadges-badgekit; nvm use v0.10.33; npm install;'
+    - name: make badgekit admin db migrations
+      shell: bash -i -c 'cd /home/badges/openbadges-badgekit; bin/db-migrate up;'
+      environment:
+         COOKIE_SECRET: "{{ BADGEKIT_ADMIN_ENV.COOKIE_SECRET }}"
+         PORT: "{{ BADGEKIT_ADMIN_ENV.PORT }}"
+         OPENBADGER_SYSTEM: "{{ BADGEKIT_ADMIN_ENV.OPENBADGER_SYSTEM }}"
+         OPENBADGER_URL: "{{ BADGEKIT_ADMIN_ENV.OPENBADGER_URL }}"
+         OPENBADGER_SECRET: "{{ BADGEKIT_ADMIN_ENV.OPENBADGER_SECRET }}"
+         DATABASE_DRIVER: "{{ BADGEKIT_ADMIN_ENV.DATABASE_DRIVER }}"
+         DATABASE_HOST: "{{ BADGEKIT_ADMIN_ENV.DATABASE_HOST }}"
+         DATABASE_USER: "{{ BADGEKIT_ADMIN_ENV.DATABASE_USER }}"
+         DATABASE_PASSWORD: "{{ BADGEKIT_ADMIN_ENV.DATABASE_PASSWORD }}"
+         DATABASE_DATABASE: "{{ BADGEKIT_ADMIN_ENV.DATABASE_DATABASE }}"
+         PERSONA_AUDIENCE: "{{ BADGEKIT_ADMIN_ENV.PERSONA_AUDIENCE }}"
+         API_SECRET: "{{ BADGEKIT_ADMIN_ENV.API_SECRET }}"
+         BRANDING: "{{ BADGEKIT_ADMIN_ENV.BRANDING }}"
+         ACCESS_LIST: "{{ BADGEKIT_ADMIN_ENV.ACCESS_LIST }}"

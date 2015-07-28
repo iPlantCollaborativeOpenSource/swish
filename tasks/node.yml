@@ -1,0 +1,11 @@
+---
+    - name: download node prep
+      get_url: url=https://deb.nodesource.com/setup_0.12 dest=/home/node-setup
+    - name: run node prep
+      shell: bash /home/node-setup
+    - name: install node
+      apt: pkg=nodejs state=installed
+    - name: install nvm
+      shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | bash
+    - name: install correct node version
+      shell: bash -i -c 'nvm install v0.10.33'

@@ -1,0 +1,14 @@
+---
+    - name: install mysql
+      apt: pkg=mysql-server state=installed
+    - name: install mysql python
+      apt: pkg=python-mysqldb state=installed
+    - name: start mysql
+      service: name=mysql state=started
+    - name: set root mysql password
+      mysql_user: name=root login_user=root login_password=mypassword state=present password=mypassword
+    - name: create badgekit api database
+      mysql_db: login_user=root login_password=mypassword name=badgekitapi
+    - name: create badgekit database
+      mysql_db: login_user=root login_password=mypassword name=badgekit
+   
