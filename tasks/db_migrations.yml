@@ -1,7 +1,7 @@
 ---
     - name: npm install badgekit api dependencies
-      npm: path=/home/badges/badgekit-api/ state=present executable=~/.nvm/v0.10.33/bin/node 
-      #shell: cd /home/badges/badgekit-api; nvm use v0.10.33; npm install;
+      #npm: path=/home/badges/badgekit-api/ state=present executable=~/.nvm/v0.10.33/bin/node 
+      shell: cd /home/badges/badgekit-api; nvm use v0.10.33; npm install;
     - name: make badgekit api db migrations
       shell: bash -i -c 'cd /home/badges/badgekit-api; bin/db-migrate up;'
       environment:
