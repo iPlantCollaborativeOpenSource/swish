@@ -1,0 +1,148 @@
+#!/usr/bin/env python
+import ConfigParser
+from jinja2 import Environment, PackageLoader
+
+env = Environment()
+
+def write_file(filename, to_write):
+	with open(filename, 'w') as dest:
+		dest.write(to_write)
+
+def write_upstart_scripts():
+	global env
+	template = env.get_template('badgekit-api.conf.j2')
+	print template
+
+def write_global_settings(settings_dict, ansible_settings):
+	if 'GLOBAL_SETTINGS_DEST' not in ansible_settings:
+		print "No GLOBAL_SETTINGS_DEST set in ANSIBLE variables"
+		return
+	dest_file = ansible_settings['GLOBAL_SETTINGS_DEST']
+	to_write = ""
+	for setting in settings_dict:
+		to_write += "%s: \"%s\"\n" % (str.upper(setting), settings_dict[setting])
+	write_file(dest_file, to_write)
+
+
+def write_badgekit_api_env_settings(settings_dict, ansible_settings):
+	if 'API_ENV_FILE_DEST' not in ansible_settings:
+		print "No API_ENV_FILE_DEST set in ANSIBLE variables"
+		return
+	dest_file = ansible_settings['API_ENV_FILE_DEST']
+	to_write = ""
+	for setting in settings_dict:
+		to_write += "%s: \"%s\"\n" % (str.upper(setting), settings_dict[setting])
+	write_file(dest_file, to_write)
+
+def write_badgekit_api_install_settings(settings_dict, ansible_settings):
+	if 'API_INSTALL_DEST' not in ansible_settings:
+		print "No API_INSTALL_DEST set in ANSIBLE variables"
+		return
+	dest_file = ansible_settings['API_INSTALL_DEST']
+	to_write = ""
+	for setting in settings_dict:
+		to_write += "%s: \"%s\"\n" % (str.upper(setting), settings_dict[setting])
+	write_file(dest_file, to_write)
+
+def write_badgekit_admin_env_settings(settings_dict, ansible_settings):
+	if 'ADMIN_ENV_FILE_DEST' not in ansible_settings:
+		print "No ADMIN_ENV_FILE_DEST set in ANSIBLE variables"
+		return
+	dest_file = ansible_settings['ADMIN_ENV_FILE_DEST']
+	to_write = ""
+	for setting in settings_dict:
+		# Follow ACCESS_LIST syntax from documentation, not just comma separated names
+		# TODO: Make this not trash
+		if str.upper(setting) == 'ACCESS_LIST':
+			to_write += r'ACCESS_LIST: [\"\^'
+			emails_list = settings_dict[setting].split(',')
+			for count in range(0, len(emails_list)):
+				to_write += emails_list[count]
+				# prepare for next email
+				if count < len(emails_list) - 1:
+					to_write += r'\$\",\"\^'
+				# end list
+				else:
+					to_write += r'\$\"]'
+			to_write += "\n"
+					
+		else:
+			to_write += "%s: \"%s\"\n" % (str.upper(setting), settings_dict[setting])
+	write_file(dest_file, to_write)
+
+def write_badgekit_admin_install_settings(settings_dict, ansible_settings):
+	if 'ADMIN_INSTALL_DEST' not in ansible_settings:
+		print "No ADMIN_INSTALL_DEST set in ANSIBLE variables"
+		return
+	dest_file = ansible_settings['ADMIN_INSTALL_DEST']
+	to_write = ""
+	for setting in settings_dict:
+		to_write += "%s: \"%s\"\n" % (str.upper(setting), settings_dict[setting])
+	write_file(dest_file, to_write)
+
+def write_local_mysql_settings(settings_dict, ansible_settings):
+	if 'MYSQL_SETTINGS_DEST' not in ansible_settings:
+		print "No MYSQL_SETTINGS_DEST set in ANSIBLE variables"
+		return
+	dest_file = ansible_settings['MYSQL_SETTINGS_DEST']
+	to_write = ""
+	for setting in settings_dict:
+		to_write += "%s: \"%s\"\n" % (str.upper(setting), settings_dict[setting])
+	write_file(dest_file, to_write)
+
+def main():
+    variables_filename = 'variables.ini'
+    with open(variables_filename) as variables_file:
+	parser = ConfigParser.ConfigParser()
+	parser.readfp(variables_file)
+	variables = {}
+	for section in parser.sections():
+		variables[section] = {}
+		for option, value in parser.items(section):
+			variables[section][option] = value
+
+	if 'ANSIBLE' not in variables:
+		print "Ansible variables not set in variables file: %s" % variables_filename
+		exit(1)
+
+	# Get all caps keys
+	ansible_vars = {}
+	for setting in variables['ANSIBLE']:
+		ansible_vars[str.upper(setting)] = variables['ANSIBLE'][setting]
+	
+	if 'BADGEKIT API INSTALL' in variables:
+		write_badgekit_api_install_settings(variables['BADGEKIT API INSTALL'], ansible_vars)
+	else:
+		print "***WARNING: BADGEKIT API INSTALL NOT DEFINED IN VARIABLES FILE***"
+
+	if 'GLOBAL' in variables:
+		write_global_settings(variables['GLOBAL'], ansible_vars)
+	else: 
+		print "***WARNING: GLOBAL SETTINGS NOT DEFINED IN VARIABLES FILE***"
+
+	if 'BADGEKIT ADMIN INSTALL' in variables:
+		write_badgekit_admin_install_settings(variables['BADGEKIT ADMIN INSTALL'], ansible_vars)
+	else:
+		print "***WARNING: BADGEKIT ADMIN INSTALL NOT DEFINED IN VARIABLES FILE***"
+
+	if 'BADGEKIT API VARIABLES' in variables:
+		write_badgekit_api_env_settings(variables['BADGEKIT API VARIABLES'], ansible_vars)
+	else:
+		print "***WARNING: BADGEKIT ADMIN VARIABLES NOT DEFINED IN VARIABLES FILE***"
+
+	if 'BADGEKIT ADMIN VARIABLES' in variables:
+		write_badgekit_admin_env_settings(variables['BADGEKIT ADMIN VARIABLES'], ansible_vars)
+	else:
+		print "***WARNING: BADGEKIT ADMIN VARIABLES NOT DEFINED IN VARIABLES FILE***"
+
+	if 'MYSQL' in variables:
+		write_local_mysql_settings(variables['MYSQL'], ansible_vars)
+	else:
+		print "***WARNING: MYSQL NOT DEFINED IN VARIABLES FILE***"
+
+	write_upstart_scripts()
+
+	print "Done!"
+
+if __name__ == "__main__":
+	main()	
