@@ -1,0 +1,12 @@
+---
+- name: install nodejs
+  package: name=nodejs state=present
+
+- name: install npm
+  package: name=npm state=present
+
+- name: install n
+  npm: name=n global=yes
+
+- name: install and use node v0.10.33
+  shell: n 0.10.33

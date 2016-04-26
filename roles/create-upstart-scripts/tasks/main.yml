@@ -1,0 +1,14 @@
+---
+- name: Create badgekit api upstart script
+  template: src=../templates/badgekit-api.conf.j2 dest=/etc/init/badgekit-api.conf
+  with_items: 
+      - "{{ API_INSTALL_LOCATION }}"
+      - "{{ API_LOG_LOCATION }}"
+      - "{{ API_VARIABLES_FILE }}"
+
+- name: Create badgekit admin upstart script
+  template: src=../templates/badgekit-admin.conf.j2 dest=/etc/init/badgekit-admin.conf
+  with_items: 
+      - "{{ ADMIN_INSTALL_LOCATION }}"
+      - "{{ ADMIN_LOG_LOCATION }}"
+      - "{{ ADMIN_VARIABLES_FILE }}"

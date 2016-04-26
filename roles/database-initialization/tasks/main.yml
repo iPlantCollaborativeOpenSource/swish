@@ -1,0 +1,13 @@
+---
+    - name: install mysql
+      package: name=mysql-server state=latest
+    - name: install mysql python
+      package: name=python-mysqldb state=latest
+    - name: start mysql
+      service: name=mysql state=started
+    - name: set root password
+      mysql_user: name={{ LOCAL_DATABASE_USER }} host=localhost password={{ LOCAL_DATABASE_PASSWORD }} login_user={{ LOCAL_DATABASE_USER }} login_password={{ LOCAL_DATABASE_PASSWORD }} check_implicit_admin=yes priv="*.*:ALL,GRANT"
+    - name: create badgekit api database
+      mysql_db: login_user={{ LOCAL_DATABASE_USER }} login_password={{ LOCAL_DATABASE_PASSWORD }} name={{ LOCAL_API_DATABASE_NAME }}
+    - name: create badgekit admin database
+      mysql_db: login_user={{ LOCAL_DATABASE_USER }} login_password={{ LOCAL_DATABASE_PASSWORD }} name={{ LOCAL_ADMIN_DATABASE_NAME }}

@@ -1,0 +1,3 @@
+---
+- name: Create Badgekit API dir
+  file: path={{ API_INSTALL_LOCATION }} state=directory

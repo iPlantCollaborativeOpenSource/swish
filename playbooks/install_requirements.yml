@@ -1,0 +1,14 @@
+---
+- name: Install necessary dependencies to begin installing Badgekit
+  hosts: all
+  roles:
+    - api-dir
+    - admin-dir
+    - install-git
+    - install-node
+    - database-initialization
+    - install-badgekit-admin
+    - install-badgekit-api
+    - database-migrations
+    - create-upstart-scripts
+    - start-services

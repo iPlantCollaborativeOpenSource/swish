@@ -1,0 +1,3 @@
+---
+- name: install badgekit admin
+  git: repo={{ BADGEKIT_ADMIN_REPO }} dest={{ ADMIN_INSTALL_LOCATION }} clone=yes update=no

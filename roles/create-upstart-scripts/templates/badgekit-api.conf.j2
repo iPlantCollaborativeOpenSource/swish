@@ -1,0 +1,16 @@
+description "badgekit api"
+
+start on started mountall
+stop on shutdown
+
+respawn
+respawn limit 99 5
+
+script
+   . {{ API_VARIABLES_FILE }}
+   exec /usr/local/bin/node {{ API_INSTALL_LOCATION }}/app/index.js >> {{ API_LOG_LOCATION }}
+end script
+
+post-start script
+
+end script

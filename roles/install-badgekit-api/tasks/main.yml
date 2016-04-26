@@ -1,0 +1,4 @@
+---
+# tasks file for install-badgekit-api
+- name: install badgekit api
+  git: repo={{ BADGEKIT_API_REPO }} dest={{ API_INSTALL_LOCATION }} clone=yes update=no

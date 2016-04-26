@@ -1,0 +1,4 @@
+---
+# defaults file for install-badgekit-api
+vars_files:
+    - vars/ubuntu.yml
