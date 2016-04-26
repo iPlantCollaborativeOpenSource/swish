@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 import ConfigParser
-from jinja2 import Environment, PackageLoader
-
 
 def write_file(filename, to_write):
 	with open(filename, 'w') as dest:
