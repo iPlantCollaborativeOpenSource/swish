@@ -1,6 +1,0 @@
----
-    - name: install badgekit api
-      git: repo={{BADGEKIT_API_REPO}} dest=/home/badges/badgekit-api accept_hostkey=yes clone=yes update=no
-    - name: install badgekit admin ui
-      git: repo={{BADGEKIT_ADMIN_REPO}} dest=/home/badges/openbadges-badgekit accept_hostkey=yes clone=yes update=no
- 
