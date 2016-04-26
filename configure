@@ -2,16 +2,10 @@
 import ConfigParser
 from jinja2 import Environment, PackageLoader
 
-env = Environment()
 
 def write_file(filename, to_write):
 	with open(filename, 'w') as dest:
 		dest.write(to_write)
-
-def write_upstart_scripts():
-	global env
-	template = env.get_template('badgekit-api.conf.j2')
-	print template
 
 def write_global_settings(settings_dict, ansible_settings):
 	if 'GLOBAL_SETTINGS_DEST' not in ansible_settings:
@@ -139,8 +133,6 @@ def main():
 		write_local_mysql_settings(variables['MYSQL'], ansible_vars)
 	else:
 		print "***WARNING: MYSQL NOT DEFINED IN VARIABLES FILE***"
-
-	write_upstart_scripts()
 
 	print "Done!"
 
