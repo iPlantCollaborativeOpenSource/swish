@@ -2,3 +2,14 @@
 # tasks file for install-badgekit-api
 - name: install badgekit api
   git: repo={{ BADGEKIT_API_REPO }} dest={{ API_INSTALL_LOCATION }} clone=yes update=no
+
+- name: Create badgekit api env file
+  template: src=../templates/badgekit-api.env.j2 dest={{ API_VARIABLES_FILE }}
+  with_items: 
+      - "{{ DB_HOST }}"
+      - "{{ DB_NAME }}"
+      - "{{ DB_PASSWORD }}"
+      - "{{ DB_USER }}"
+      - "{{ MASTER_SECRET }}"
+      - "{{ API_PORT }}"
+      - "{{ NODE_ENV }}"

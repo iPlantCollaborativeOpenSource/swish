@@ -1,30 +1,6 @@
 ---
 - name: Start badgekit api service
   service: name=badgekit-api state=started
-  environment:
-    DB_HOST: "{{ DB_HOST }}"
-    DB_NAME: "{{ DB_NAME }}"
-    DB_PASSWORD: "{{ DB_PASSWORD }}"
-    DB_USER: "{{ DB_USER }}"
-    MASTER_SECRET: "{{ MASTER_SECRET }}"
-    PORT: "{{ API_PORT }}"
-    NODE_ENV: "{{ NODE_ENV }}"
 
 - name: Start badgekit admin service
   service: name=badgekit-admin state=started
-  environment:
-    COOKIE_SECRET: "{{ COOKIE_SECRET }}"
-    PORT: "{{ ADMIN_PORT }}"
-    OPENBADGER_SYSTEM: "{{ OPENBADGER_SYSTEM }}"
-    OPENBADGER_URL: "{{ OPENBADGER_URL }}"
-    OPENBADGER_SECRET: "{{ OPENBADGER_SECRET }}"
-    DATABASE_DRIVER: "{{ DATABASE_DRIVER }}"
-    DATABASE_HOST: "{{ DATABASE_HOST }}"
-    DATABASE_USER: "{{ DATABASE_USER }}"
-    DATABASE_PASSWORD: "{{ DATABASE_PASSWORD }}"
-    DATABASE_DATABASE: "{{ DATABASE_DATABASE }}"
-    PERSONA_AUDIENCE: "{{ PERSONA_AUDIENCE }}"
-    API_SECRET: "{{ API_SECRET }}"
-    BRANDING: "{{ BRANDING }}"
-    NODE_TLS_REJECT_UNAUTHORIZED: "{{ NODE_TLS_REJECT_UNAUTHORIZED }}"
-    ACCESS_LIST: "{{ ACCESS_LIST }}"

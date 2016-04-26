@@ -1,3 +1,22 @@
 ---
 - name: install badgekit admin
   git: repo={{ BADGEKIT_ADMIN_REPO }} dest={{ ADMIN_INSTALL_LOCATION }} clone=yes update=no
+
+- name: Create badgekit admin env file
+  template: src=../templates/badgekit-admin.env.j2 dest={{ ADMIN_VARIABLES_FILE }}
+  with_items: 
+      - "{{ COOKIE_SECRET }}"
+      - "{{ ADMIN_PORT }}"
+      - "{{ OPENBADGER_SYSTEM }}"
+      - "{{ OPENBADGER_URL }}"
+      - "{{ OPENBADGER_SECRET }}"
+      - "{{ DATABASE_DRIVER }}"
+      - "{{ DATABASE_HOST }}"
+      - "{{ DATABASE_USER }}"
+      - "{{ DATABASE_PASSWORD }}"
+      - "{{ DATABASE_DATABASE }}"
+      - "{{ PERSONA_AUDIENCE }}"
+      - "{{ API_SECRET }}"
+      - "{{ BRANDING }}"
+      - "{{ ACCESS_LIST }}"
+      - "{{ NODE_TLS_REJECT_UNAUTHORIZED }}"
