@@ -9,7 +9,6 @@
 - name: Create badgekit admin upstart script
   template: src=../templates/badgekit-admin.conf.j2 dest=/etc/init/badgekit-admin.conf
   with_items: 
-      - "{{ ACCESS_LIST }}"
       - "{{ ADMIN_INSTALL_LOCATION }}"
       - "{{ ADMIN_LOG_LOCATION }}"
       - "{{ ADMIN_VARIABLES_FILE }}"
